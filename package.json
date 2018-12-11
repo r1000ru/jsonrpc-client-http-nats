@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/r1000ru/jsonrpc-client-nats.git"
+    "url": "https://github.com/r1000ru/jsonrpc-client-http-nats.git"
   },
   "keywords": [
     "JsonRPC",
