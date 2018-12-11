@@ -1,20 +1,19 @@
 const NATS = require('nats'),
     errors = require('./jsonrpc-errors');
 
-var JsonRPCClientNats = function(options, channel) {
+var JsonRPCClientNats = function(options, channel, timeout) {
+
     if (typeof(options) === 'object' && options.constructor.name === 'Client') {
         this._client = options;
-        this._timeout = 1000;
     } else if (typeof(options) === 'string') {
         this._client = NATS.connect({ url: options });
-        this._timeout = 1000;
     } else {
         this._client = NATS.connect(options);
-        this._timeout = options.timeout || 1000;
     }
 
     this._channel = channel;
-    
+    this._timeout = timeout || 1000;
+
     this._client.on('error', (e)=>{
         let error = Object.assign({}, errors.INTERNAL_ERROR, {data: e.message})
         console.log(error);
