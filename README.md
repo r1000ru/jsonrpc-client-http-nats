@@ -1,20 +1,31 @@
-# Клиент для запросов по протоколу JsonRPC через Nats
+# Клиент для запросов по протоколу JsonRPC через HTTP(s) и Nats
 
 
 ### Установка
 
 ```bash
-npm install jsonrpc-client-nats --save
+npm install jsonrpc-client-http-nats --save
 ```
 
 ### Использование
 
 ```js
-const JsonRPCClientNats = require('jsonrpc-client-nats');
+// Подключаем библиотеку
+const JsonRPCClient = require('jsonrpc-client-http-nats');
 
-let client = new JsonRPCClientNats('nats://127.0.0.1:4222', 'MyChannel');
+// Создаем клиент для образения по HTTP(s)
+let httpClient = JsonRPCClient.http('http://127.0.0.1:8080');
 
-client.request('Method', { title: 'MyTitle' }, (err, result)=>{
+// И(или) создадаем клиент для обращения через Nats
+let natsClient = JsonRPCClient.nats('nats://127.0.0.1:4222', 'MyChannel');
+
+// Отправляем запрос через HTTP(s)
+httpClient.request('FirstMethod', { title: 'MyTitle' }, (err, result)=>{
+    console.log(err, result);
+})
+
+// Отправляем запрос через Nats
+natsClient.request('SecondMethod', { title: 'MyData' }, (err, result)=>{
     console.log(err, result);
 })
 ```

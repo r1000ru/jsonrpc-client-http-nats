@@ -1,26 +1,26 @@
 {
-  "name": "jsonrpc-client-nats",
+  "name": "jsonrpc-client-http-nats",
   "version": "1.0.0",
-  "description": "JsonRPC client for requests other Nats.io",
-  "main": "src/jsonrpc-client-nats.js",
+  "description": "JsonRPC client for requests other Nats or HTTP(s)",
+  "main": "src/jsonrpc-client.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "demo": "node ./demo/demo.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/r1000ru/jsonrpc-client-nats.git"
+    "url": "https://github.com/r1000ru/jsonrpc-client-nats.git"
   },
   "keywords": [
     "JsonRPC",
     "Nats"
   ],
-  "author": "Roman Sorokin",
+  "author": "Roman Sorokin <mail@r1000.ru>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/r1000ru/jsonrpc-client-nats/issues"
+    "url": "https://github.com/r1000ru/jsonrpc-client-http-nats/issues"
   },
-  "homepage": "https://github.com/r1000ru/jsonrpc-client-nats#readme",
+  "homepage": "https://github.com/r1000ru/jsonrpc-client-http-nats#readme",
   "dependencies": {
     "nats": "^1.2.1"
   }
