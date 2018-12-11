@@ -1,6 +1,6 @@
 const JsonRPCClient = require('../src/jsonrpc-client');
     
-let natClient = JsonRPCClient.nats('nats://192.168.100.10:4222', 'TestChannel');
+let natClient = JsonRPCClient.nats('nats://127.0.0.1:4222', 'TestChannel');
 let httpClient = JsonRPCClient.http('http://127.0.0.1:8080');
 
 // Запрос без параметров
