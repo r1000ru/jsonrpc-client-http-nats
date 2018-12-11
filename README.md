@@ -13,10 +13,10 @@ npm install jsonrpc-client-http-nats --save
 // Подключаем библиотеку
 const JsonRPCClient = require('jsonrpc-client-http-nats');
 
-// Создаем клиент для образения по HTTP(s)
+// Создаем клиент для обращения по HTTP(s)
 let httpClient = JsonRPCClient.http('http://127.0.0.1:8080');
 
-// И(или) создадаем клиент для обращения через Nats
+// И(или) создадаем клиент для обращения через Nats с запросами в канал MyChannel
 let natsClient = JsonRPCClient.nats('nats://127.0.0.1:4222', 'MyChannel');
 
 // Отправляем запрос через HTTP(s)
@@ -32,15 +32,20 @@ natsClient.request('SecondMethod', { title: 'MyData' }, (err, result)=>{
 
 ### API
 
-#### Конструктор 
+#### Инициализация клиента
+`JsonRPCClient.http(url [, timeout])` - инициализация экземпляра клиента, общающегося через HTTP(S). Имеет два аргумента:
+  - `url` - URL для отравки запросов на сервер, например `http://127.0.0.1:8080`;
+  - `timeout` - время ожидания ответа на запрос в миллисекундах. Если не передан, то равняется 1000;
 
-Конструктор `JsonRPCClientNats(options, channel [, timeout])` имеет три аргумента:
+
+
+`JsonRPCClient.nats(options, channel [, timeout])` - инициализация экземпляра клиента, общающегося через Nats. Имеет три аргумента:
   - `options` - может быть:
     - объектом `options` для установки соединения с Nats согласно его [документации](https://github.com/nats-io/node-nats#connect-options);
     - URL для подключени, например: `nats://127.0.0.1:4222`;
     - результат выполнения `nats.connect()`, см. примечение ниже;
   - `channel` - канал, на котором сервер (например [JsonRPC-Server](https://github.com/r1000ru/jsonrpc-server))  слушает запросы от клиента;
-  - `timeout` - время ожидания ответ на запрос в миллисекундах. Если не передан, то равняется 1000;
+  - `timeout` - время ожидания ответа на запрос в миллисекундах. Если не передан, то равняется 1000;
   
  Примечание: При создании каждого нового экземпляра клиента, если в качестве первого аргумента переданы параметры соединения или URL, создается новое подключение к серверу Nats. Если есть необходимость отправлять запросы на разные каналы одного сервера, имеет смысл в качестве `options` передать уже готовое подключение, чтобы все клиенты могли его использовать:
  
@@ -54,11 +59,11 @@ const connection = Nats.connect({
 });
 
 // Создаем экземпляры клиентов, использующих одно подключение
-let clientOne = new JsonRPCClientNats(connection, 'MyChannelOne');
-let clientTwo = new JsonRPCClientNats(connection, 'MyChannelTwo');
+let clientOne = JsonRPCClient.nats(connection, 'MyChannelOne')
+let clientTwo = JsonRPCClient.nats(connection, 'MyChannelTwo')
  ```
 
-#### Методы
+#### Методы экземпляра клиента
 `.request(method, [params [, timeout]], callback)` - отправляет запрос в канал и ожидает ответа. Аргументы метода:
   - `method` - метод JsonRPC, строка
   - `params` - параметры, не является обязательным и может быть любого типа
