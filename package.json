@@ -1,6 +1,6 @@
 {
   "name": "jsonrpc-client-http-nats",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "JsonRPC client for requests other Nats or HTTP(s)",
   "main": "src/jsonrpc-client.js",
   "scripts": {
