@@ -28,8 +28,14 @@ httpClient.request('FirstMethod', { title: 'MyTitle' }, (err, result)=>{
 natsClient.request('SecondMethod', { title: 'MyData' }, (err, result)=>{
     console.log(err, result);
 })
-```
 
+
+// Подписываемся на канал по Nats (ожидаются строка JSON данные)
+natsClient.subscribe('Channel');
+natsClient.on('message', (message) => {
+  console.log('message);
+})
+```
 ### API
 
 #### Инициализация клиента

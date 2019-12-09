@@ -1,5 +1,6 @@
 const NATS = require('nats'),
-    errors = require('./jsonrpc-errors');
+    errors = require('./jsonrpc-errors'),
+    Events = require('events');
 
 var JsonRPCClientNats = function(options, channel, timeout) {
 
@@ -13,12 +14,15 @@ var JsonRPCClientNats = function(options, channel, timeout) {
 
     this._channel = channel;
     this._timeout = timeout || 1000;
+    
+    this._subscriber;
 
     this._client.on('error', (e)=>{
         let error = Object.assign({}, errors.INTERNAL_ERROR, {data: e.message})
         console.log(error);
     });
 }
+JsonRPCClientNats.prototype.__proto__ = Events.prototype;
 
 JsonRPCClientNats.prototype.request = function(method, params, timeout, callback) {
     if (typeof(params) === 'function' && !timeout && !callback) {
@@ -66,6 +70,20 @@ JsonRPCClientNats.prototype.request = function(method, params, timeout, callback
     
         callback(undefined, content.result);
     })
+}
+
+JsonRPCClientNats.prototype.subscribe = function(channel){
+    this._client.subscribe(channel, (message) => {
+        let json;
+        try {
+            json = JSON.parse(message);
+        } catch {
+            console.log('Wrong JSON from channel ', message);
+        }
+        if (json) {
+            this.emit('message', json);
+        }
+    });
 }
 
 module.exports = JsonRPCClientNats;
