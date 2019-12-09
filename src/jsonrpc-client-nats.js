@@ -21,6 +21,9 @@ var JsonRPCClientNats = function(options, channel, timeout) {
         let error = Object.assign({}, errors.INTERNAL_ERROR, {data: e.message})
         console.log(error);
     });
+    this._client.on('connect', ()=>{
+        this.emit('connected');
+    })
 }
 JsonRPCClientNats.prototype.__proto__ = Events.prototype;
 
