@@ -94,7 +94,7 @@ JsonRPCClientNats.prototype.publish = function(channel, json) {
         json = channel;
         channel = this._channel;
     }
-    this._channel.publish(channel, JSON.stringify(json));
+    this._client.publish(channel, JSON.stringify(json));
 }
 
 module.exports = JsonRPCClientNats;
