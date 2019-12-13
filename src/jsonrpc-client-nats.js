@@ -89,8 +89,12 @@ JsonRPCClientNats.prototype.subscribe = function(channel){
     });
 }
 
-JsonRPCClientNats.prototype.publish = function(json) {
-    this._channel.publish(this._channel, JSON.stringify(json));
+JsonRPCClientNats.prototype.publish = function(channel, json) {
+    if (json === undefined) {
+        json = channel;
+        channel = this._channel;
+    }
+    this._channel.publish(channel, JSON.stringify(json));
 }
 
 module.exports = JsonRPCClientNats;
