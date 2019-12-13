@@ -76,7 +76,7 @@ JsonRPCClientNats.prototype.request = function(method, params, timeout, callback
 }
 
 JsonRPCClientNats.prototype.subscribe = function(channel){
-    this._client.subscribe(channel, (message) => {
+    this._client.subscribe(channel, (message, reply, from, ids) => {
         let json;
         try {
             json = JSON.parse(message);
@@ -84,7 +84,7 @@ JsonRPCClientNats.prototype.subscribe = function(channel){
             console.log('Wrong JSON from channel ', message);
         }
         if (json) {
-            this.emit('message', json);
+            this.emit('message', json, reply, from, ids);
         }
     });
 }

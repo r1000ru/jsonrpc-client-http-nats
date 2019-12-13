@@ -22,6 +22,6 @@
   },
   "homepage": "https://github.com/r1000ru/jsonrpc-client-http-nats#readme",
   "dependencies": {
-    "nats": "^1.2.1"
+    "nats": "^1.2.2"
   }
 }
